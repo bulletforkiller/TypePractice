@@ -55,10 +55,15 @@ public:
 	CStatic mStatic;
 	CStatic mSpeed;
 	virtual void OnOK();
+
+	// 线程回调函数
+	static UINT AFX_CDECL HushUp(LPVOID lpParam);
+	static UINT AFX_CDECL HandleWord(LPVOID lpParam);
+	static UINT AFX_CDECL HandleTimer(LPVOID lpParam);
 };
 
 
 // 线程函数
-UINT AFX_CDECL HushUp(LPVOID lpParam);
-UINT AFX_CDECL HandleWord(LPVOID lpParam);
-UINT AFX_CDECL HandleTimer(LPVOID lpParam);
+//UINT AFX_CDECL HushUp(LPVOID lpParam);
+//UINT AFX_CDECL HandleWord(LPVOID lpParam);
+//UINT AFX_CDECL HandleTimer(LPVOID lpParam);

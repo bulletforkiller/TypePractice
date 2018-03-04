@@ -52,7 +52,24 @@ void DialogTypeIn::OnBnClickedButton1()
 	thread =  AfxBeginThread(HushUp, (LPVOID)this);
 }
 
-UINT AFX_CDECL HushUp(LPVOID lpParam)
+void DialogTypeIn::OnEnChangeInput()
+{
+	CWinThread* thread = AfxBeginThread(HandleWord, (LPVOID)this);
+}
+
+void DialogTypeIn::OnTimer(UINT_PTR nIDEvent)
+{
+	CWinThread* thread = AfxBeginThread(HandleTimer, (LPVOID)this);
+}
+
+void DialogTypeIn::OnOK()
+{
+	// TODO: 在此添加专用代码和/或调用基类
+
+	//CDialog::OnOK();
+}
+
+UINT AFX_CDECL DialogTypeIn::HushUp(LPVOID lpParam)
 {
 	CTypePracticeApp* pApp;
 	SIZE_T nStringNum;
@@ -82,13 +99,7 @@ UINT AFX_CDECL HushUp(LPVOID lpParam)
 	return 0;
 }
 
-
-void DialogTypeIn::OnEnChangeInput()
-{
-	CWinThread* thread = AfxBeginThread(HandleWord, (LPVOID)this);
-}
-
-UINT AFX_CDECL HandleWord(LPVOID lpParam)
+UINT AFX_CDECL DialogTypeIn::HandleWord(LPVOID lpParam)
 {
 	int nLength;
 	DialogTypeIn* dtWnd = (DialogTypeIn*)lpParam;
@@ -118,7 +129,7 @@ UINT AFX_CDECL HandleWord(LPVOID lpParam)
 	
 }
 
-UINT AFX_CDECL HandleTimer(LPVOID lpParam)
+UINT AFX_CDECL DialogTypeIn::HandleTimer(LPVOID lpParam)
 {
 	DialogTypeIn* dtWnd = (DialogTypeIn*)lpParam;
 	int nTimer;
@@ -153,15 +164,3 @@ UINT AFX_CDECL HandleTimer(LPVOID lpParam)
 	return 0;
 }
 
-
-void DialogTypeIn::OnTimer(UINT_PTR nIDEvent)
-{
-	CWinThread* thread = AfxBeginThread(HandleTimer, (LPVOID)this);
-}
-
-void DialogTypeIn::OnOK()
-{
-	// TODO: 在此添加专用代码和/或调用基类
-
-	CDialog::OnOK();
-}
