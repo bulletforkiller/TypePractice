@@ -1,9 +1,12 @@
 #pragma once
 #include "afxwin.h"
+#include <atomic>
 
 enum TypeKind {Eng, Zh_cn};
 
 #define IDTIMER1	1
+#define WAIT_TIME	30
+#define TO_STRING(s) #s
 
 
 // DialogTypeIn 对话框
@@ -13,7 +16,6 @@ class DialogTypeIn : public CDialog
 	DECLARE_DYNAMIC(DialogTypeIn)
 
 public:
-	enum TypeKind tKind;
 // 标准构造函数
 	DialogTypeIn(CWnd* pParent = NULL, enum TypeKind kind = Eng);		// 标准构造函数
 	virtual ~DialogTypeIn();
@@ -29,23 +31,34 @@ protected:
 	DECLARE_MESSAGE_MAP()
 	
 public:
+	enum TypeKind tKind;
 	CString szSource;
+
+	// Edit框内容
 	CEdit mEdit;
-	afx_msg void OnBnClickedButton1();
+	
+	// Button 内容
 	CButton mButton;
 
-private:
-	bool bWrong;
 public:
+	bool bWrong;
+	std::atomic<int> nTimer;
+	int nSpeed;
+	DWORD nClock;
+
+public:
+	afx_msg void OnBnClickedButton1();
 	afx_msg void OnEnChangeInput();
+	afx_msg void OnTimer(UINT_PTR nIDEvent);
 
 	// Static框内容
-	CString mStatic;
+	CStatic mStatic;
+	CStatic mSpeed;
+	virtual void OnOK();
 };
 
-// 一些额外的函数
-VOID StartType(CWnd* pParent, enum TypeKind kind);
 
 // 线程函数
 UINT AFX_CDECL HushUp(LPVOID lpParam);
 UINT AFX_CDECL HandleWord(LPVOID lpParam);
+UINT AFX_CDECL HandleTimer(LPVOID lpParam);
